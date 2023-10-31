@@ -1,0 +1,13 @@
+search text inside files
+
+grep "ab" file1
+grep -i "ab" fiel1 // Case insensitive
+grep -ni "ab" file1 // Case insensitive and display file numbers
+grep -r "ab" // recursively search in current directory and it's subdirectories
+grep -rni "ab" // case insensitive search in current directlry
+grep -w "a" file1 // exact match of the word
+grep -v "a" file1 // match lines that doesn't contain "a"
+grep -vn "a" file1 
+grep -c "a" file1 // count number  of line matches
+grep -lr "a" file1 // output file names of match
+grep -rc "a" file1 // provide number of matches in each file

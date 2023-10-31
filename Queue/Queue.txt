@@ -1,0 +1,7 @@
+Queue
+Queue are designed in such a way that multiple consumers consumes different set of data and process on it.
+Load is horizontally shared.
+
+How it is implemented differs from system to system. e.g. Rabbit MQ, JMS, Kafka
+
+Topic: Broadcast all information to subscribers/consumers(it broadcast same set of data to all consumers)

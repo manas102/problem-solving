@@ -1,0 +1,76 @@
+Json have two type of values in postgres:
+1. Scalars
+    - null
+    - true
+    - false
+    - numbers:
+        - 1234
+        - 124.56
+        - 123E6
+        - 123.456e-27
+        - -99
+    - Strings:
+        - "Some stuff here"
+2. Non Scalars
+    - Arrays:
+        - [1, 2, null, true, "foo bar"]
+    - Objects:
+        - { "abc": null, "def": [4,5,6]}
+
+Missing: 
+    - binary data
+    - other common types, especially date/time types
+
+JSONB type
+    JSONB (JSON Binary) is a data type in PostgreSQL that allows you to store and 
+    manipulate JSON data in a more effective and efficient way than the regular JSON data type. 
+    JSONB stores JSON data in a binary format, which enables faster indexing and query performance 
+    compared to the regular JSON data type.
+
+    create table journal(
+        id Int NOT NULL PRIMARY KEY, day VARCHAR,
+        diary_information JSONB
+    );
+
+    Insert into journal (id, day, diary_information)
+    values
+    (
+        1, "Tuesday", '{"title": "My first day at New York", "Feeling": "Mixed feeling"}'
+    );
+
+    Operators:
+        -> : Allows to extract a specific value from JSON object, you specify the key as a "child" to the "parent"
+        select 
+        id, 
+        day, 
+        diary_information -> 'Feeling' AS FEELING 
+        from Journal;
+
+        ->> : Allows to extract a json object field as text without the quotes around it from JSON object
+        select 
+        id, 
+        day, 
+        diary_information ->> 'Feeling' AS FEELING 
+        from Journal;
+
+        jsonb_agg: This function aggregates JSON values into a JSON Arrays
+        Select json_agg(my_column) from my_table;
+
+        json_set: This function updates a JSON object field with a new value.
+        UPDATE 
+            my_table
+        SET 
+            json_column = jsonb_set(
+                json_column, '{field_name}', '"new_value"'
+            )
+        WHERE
+            ID = 1;
+
+        JSONB_BUILD_OBJECT: Manually inserting JSON values may lead to error. This function allows to have input values without having to worry about curly bracketes, colons and rest of them.
+        INSERT INTO JOURNAL (ID, DAY, FEELING)
+        VALUES(
+            3, 'Thursday',
+            JSONB_BUILD_OBJECT('Tired', 'Everybody is annoying', 'Hungry', 'Cannot wait to go home')
+        )
+
+        
